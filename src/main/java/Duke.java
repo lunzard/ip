@@ -6,6 +6,8 @@ public class Duke {
         String horizontal_line = "____________________________________________________________";
         Scanner in = new Scanner(System.in);
         String userInputLine;
+        String[] tasks = new String[100];
+        int taskCount = 0;
 
         String exitCommandText = "bye";
 
@@ -14,7 +16,15 @@ public class Duke {
 
         userInputLine = in.nextLine();
         while(!userInputLine.equalsIgnoreCase(exitCommandText)){
-            echoCommand(userInputLine,horizontal_line);
+            switch(userInputLine.toLowerCase()){
+            case "list":
+                listTasks(taskCount,tasks,horizontal_line);
+                break;
+            default:
+                addTask(userInputLine, horizontal_line,taskCount, tasks);
+                taskCount ++;
+                break;
+            }
             userInputLine = in.nextLine();
         }
         bye(horizontal_line);
@@ -41,5 +51,15 @@ public class Duke {
 
     public static void echoCommand(String userInput, String horizontalLine){
         System.out.println(horizontalLine + "\n" + userInput + "\n" + horizontalLine);
+    }
+    public static void addTask(String taskName, String horizontalLine, int taskIndex, String[] tasks){
+        tasks[taskIndex] = taskName;
+        System.out.println(horizontalLine + "\n" + "added: " + taskName + "\n" + horizontalLine);
+    }
+    public static void listTasks(int taskIndex, String[] tasks, String horizontalLine){
+        for(int i = 0; i< taskIndex; i++){
+            System.out.println(Integer.toString(i)+ ". " + tasks[i]);
+        }
+        System.out.println(horizontalLine);
     }
 }
