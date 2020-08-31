@@ -1,29 +1,28 @@
 import java.util.Scanner;
 
-
 public class Duke {
 
     public static final String HORIZONTAL_LINE = "____________________________________________________________";
-
-    private static Task[] tasks = new Task[100];
+    public static final int MAX_TASK_SIZE = 100;
+    private static Task[] tasks = new Task[MAX_TASK_SIZE];
     private static int taskCount = 0;
     private static String userInputLine;
+    private static String command;  // one question: when to make those variable static?
+    private static String description;
+    private static String taskName;
+    private static String taskTime;
 
     public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
         boolean isQuit = false;
-        String command;
-        String description;
 
         //when the program starts
         showLogo();
         greet();
 
         while(!isQuit){
-            userInputLine = in.nextLine();
-            command = processCommand();
-            description = processDescription(command);
+            processInput(in);
 
             switch (command.toUpperCase()) {
             case "LIST":
@@ -36,29 +35,40 @@ public class Duke {
                 addTask(new ToDo(description));
                 break;
             case "DEADLINE":
-                String deadlineTime = processDeadlineTime(description);
-                String deadlineName =processDeadlineName(description);
-                addTask(new Deadline(deadlineName,deadlineTime));
+                processDeadline(description);
+                addTask(new Deadline(taskName,taskTime));
                 break;
             case "EVENT":
-                String eventTime = processEventTime(description);
-                String eventName =processEventName(description);
-                addTask(new Deadline(eventName,eventTime));
+                processEvent(description);
+                addTask(new Event(taskName,taskTime));
                 break;
             case "BYE":
                 isQuit = true;
                 bye();
                 break;
             case "HELP":
-                System.out.println(HORIZONTAL_LINE + "\n"
-                        + "LIST, DONE, TODO, DEADLINE, EVENT, BYE, HELP"
-                        + HORIZONTAL_LINE);
+                printHelpInfo();
                 break;
             default:
-                System.out.println("The input is invalid, pls refer to the commands by typing 'help'. ");
+                printErrorInfo();
                 break;
             }
         }
+    }
+
+    private static void processInput(Scanner in) {
+        userInputLine = in.nextLine();
+        command = processCommand();
+        description = processDescription(command);
+    }
+
+    private static void printErrorInfo() {
+        System.out.println("The input is invalid, pls refer to the commands by typing 'help'. ");
+    }
+    private static void printHelpInfo() {
+        System.out.println(HORIZONTAL_LINE + "\n"
+                + "LIST, DONE, TODO, DEADLINE, EVENT, BYE, HELP"
+                + HORIZONTAL_LINE);
     }
 
     public static void showLogo(){
@@ -69,7 +79,6 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println(HORIZONTAL_LINE+ "\n" + logo);
     }
-
     public static void greet(){
         String greeting = "Hello! I'm Duke\n"
                         + "What can I do for you?\n";
@@ -115,17 +124,13 @@ public class Duke {
     public static String processDescription(String command){
         return userInputLine.replace(command, " ").trim();
     }
-    public static String processDeadlineTime(String description){
-        return description.substring(description.indexOf("/by") + 3).trim();
+    public static void processDeadline(String description){
+        taskName = description.substring(0, description.indexOf("/by")).trim();
+        taskTime = description.substring(description.indexOf("/by") + 3).trim();
     }
-    public static String processDeadlineName(String description){
-        return description.substring(0, description.indexOf("/by")).trim();
-    }
-    public static String processEventTime(String description){
-        return description.substring(description.indexOf("/at") + 3).trim();
-    }
-    public static String processEventName(String description){
-        return description.substring(0, description.indexOf("/at")).trim();
+    public static void processEvent(String description){
+        taskName = description.substring(0, description.indexOf("/at")).trim();
+        taskTime = description.substring(description.indexOf("/at") + 3).trim();
     }
 
 }
