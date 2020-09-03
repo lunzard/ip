@@ -21,7 +21,7 @@ public class Duke {
         showLogo();
         greet();
 
-        while(!isQuit){
+        while(!isQuit) {
             processInput(in);
 
             switch (command.toUpperCase()) {
@@ -71,7 +71,7 @@ public class Duke {
                 + HORIZONTAL_LINE);
     }
 
-    public static void showLogo(){
+    public static void showLogo() {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
                 + "| | | | | | | |/ / _ \\\n"
@@ -79,21 +79,21 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println(HORIZONTAL_LINE+ "\n" + logo);
     }
-    public static void greet(){
+    public static void greet() {
         String greeting = "Hello! I'm Duke\n"
                         + "What can I do for you?\n";
         System.out.println(HORIZONTAL_LINE + "\n" + greeting + HORIZONTAL_LINE);
     }
-    public static void bye(){
+    public static void bye() {
         String bye_word = "Bye. Hope to see you again soon!";
         System.out.println(HORIZONTAL_LINE + "\n" + bye_word + "\n" + HORIZONTAL_LINE);
     }
 
-    /*public static void echoCommand(String userInput){
+    /*public static void echoCommand(String userInput) {
         System.out.println(HORIZONTAL_LINE + "\n" + userInput + "\n" + HORIZONTAL_LINE);
     }*/
 
-    public static void addTask(Task t){
+    public static void addTask(Task t) {
         tasks[taskCount] = t;
         taskCount ++;
         System.out.println(HORIZONTAL_LINE + "\n"
@@ -102,7 +102,7 @@ public class Duke {
                 + "Now you have "+ taskCount + " tasks in the list \n"
                 + HORIZONTAL_LINE);
     }
-    public static void listTasks(){
+    public static void listTasks() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Here are the tasks in your list: ");
         for(int i = 0; i< taskCount; i++){
@@ -110,7 +110,7 @@ public class Duke {
         }
         System.out.println(HORIZONTAL_LINE);
     }
-    public static void doneTask(int taskIndex){
+    public static void doneTask(int taskIndex) {
         System.out.println(HORIZONTAL_LINE);
         tasks[taskIndex-1].markAsDone();
         System.out.println("Nice! I've marked this task as done:");
@@ -118,17 +118,17 @@ public class Duke {
         System.out.println(HORIZONTAL_LINE);
     }
 
-    public static String processCommand(){
+    public static String processCommand() {
         return userInputLine.split(" ")[0];
     }
-    public static String processDescription(String command){
+    public static String processDescription(String command) {
         return userInputLine.replace(command, " ").trim();
     }
-    public static void processDeadline(String description){
+    public static void processDeadline(String description) {
         taskName = description.substring(0, description.indexOf("/by")).trim();
         taskTime = description.substring(description.indexOf("/by") + 3).trim();
     }
-    public static void processEvent(String description){
+    public static void processEvent(String description) {
         taskName = description.substring(0, description.indexOf("/at")).trim();
         taskTime = description.substring(description.indexOf("/at") + 3).trim();
     }
