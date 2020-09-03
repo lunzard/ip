@@ -72,11 +72,11 @@ public class Duke {
     }
 
     public static void showLogo() {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
+        String logo = " ____        _\n"
+                    + "|  _ \\ _   _| | _____\n"
+                    + "| | | | | | | |/ / _ \\\n"
+                    + "| |_| | |_| |   <  __/\n"
+                    + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println(HORIZONTAL_LINE+ "\n" + logo);
     }
     public static void greet() {
@@ -97,14 +97,14 @@ public class Duke {
         tasks[taskCount] = t;
         taskCount ++;
         System.out.println(HORIZONTAL_LINE + "\n"
-                + "Got it. I've added this task: \n"
+                + "Got it. I've added this task:\n"
                 + "  " +t.toString() + "\n"
-                + "Now you have "+ taskCount + " tasks in the list \n"
+                + "Now you have "+ taskCount + " tasks in the list\n"
                 + HORIZONTAL_LINE);
     }
     public static void listTasks() {
         System.out.println(HORIZONTAL_LINE + "\n"
-                + "Here are the tasks in your list: ");
+                + "Here are the tasks in your list:");
         for(int i = 0; i< taskCount; i++){
             System.out.println((i+1)+"."+tasks[i].toString());
         }
