@@ -57,9 +57,8 @@ public class Duke {
     }
 
     private static void processInput(Scanner in) {
-        userInputLine = in.nextLine();
-        command = processCommand();
-        description = processDescription(command);
+            userInputLine = in.nextLine();
+            command = processCommand();
     }
 
     private static void printErrorInfo() {
@@ -94,18 +93,31 @@ public class Duke {
     }*/
 
     public static void addTask(Task t) {
-        tasks[taskCount] = t;
-        taskCount ++;
-        System.out.println(HORIZONTAL_LINE + "\n"
-                + "Got it. I've added this task:\n"
-                + "  " +t.toString() + "\n"
-                + "Now you have "+ taskCount + " tasks in the list\n"
-                + HORIZONTAL_LINE);
+        boolean isDescriptionExist = true;
+        try {
+            processDescription(command);
+        }
+        catch (EmptyDescriptionException e) {
+            System.out.println(HORIZONTAL_LINE + "\n"
+                    + "☹ OOPS!!! The description of a todo cannot be empty\n"
+                    + HORIZONTAL_LINE);
+            isDescriptionExist = false;
+        }
+        if (isDescriptionExist) {
+            tasks[taskCount] = t;
+            taskCount ++;
+            System.out.println(HORIZONTAL_LINE + "\n"
+                    + "Got it. I've added this task:\n"
+                    + "  " +t.toString() + "\n"
+                    + "Now you have "+ taskCount + " tasks in the list\n"
+                    + HORIZONTAL_LINE);
+        }
+
     }
     public static void listTasks() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Here are the tasks in your list:");
-        for(int i = 0; i< taskCount; i++){
+        for (int i = 0; i< taskCount; i++) {
             System.out.println((i+1)+"."+tasks[i].toString());
         }
         System.out.println(HORIZONTAL_LINE);
@@ -121,8 +133,11 @@ public class Duke {
     public static String processCommand() {
         return userInputLine.split(" ")[0];
     }
-    public static String processDescription(String command) {
-        return userInputLine.replace(command, " ").trim();
+    public static void processDescription(String command) throws EmptyDescriptionException{
+        description = userInputLine.replace(command, " ").trim();
+        if (description.equals(" ") || description.isEmpty()) {
+            throw new EmptyDescriptionException();
+        }
     }
     public static void processDeadline(String description) {
         taskName = description.substring(0, description.indexOf("/by")).trim();
