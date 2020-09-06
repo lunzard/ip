@@ -29,18 +29,24 @@ public class Duke {
                 listTasks();
                 break;
             case "DONE":
-                doneTask(Integer.parseInt(description));
+                if(checkDescription() && checkDoneNum()) {
+                    doneTask(Integer.parseInt(description));
+                }
                 break;
             case "TODO":
-                addTask(new ToDo(description));
+                if(checkDescription()) {
+                    addTask(new ToDo(description));
+                }
                 break;
             case "DEADLINE":
-                processDeadline(description);
-                addTask(new Deadline(taskName,taskTime));
+                if(checkDescription() && checkDeadline()) {
+                    addTask(new Deadline(taskName,taskTime));
+                }
                 break;
             case "EVENT":
-                processEvent(description);
-                addTask(new Event(taskName,taskTime));
+                if(checkDescription() && checkEvent()) {
+                    addTask(new Event(taskName, taskTime));
+                }
                 break;
             case "BYE":
                 isQuit = true;
@@ -57,13 +63,13 @@ public class Duke {
     }
 
     private static void processInput(Scanner in) {
-        userInputLine = in.nextLine();
-        command = processCommand();
-        description = processDescription(command);
+            userInputLine = in.nextLine();
+            command = processCommand();
     }
 
     private static void printErrorInfo() {
-        System.out.println("The input is invalid, pls refer to the commands by typing 'help'. ");
+        System.out.println("☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n"
+                + " pls refer to the commands by typing 'help'. ");
     }
     private static void printHelpInfo() {
         System.out.println(HORIZONTAL_LINE + "\n"
@@ -105,10 +111,31 @@ public class Duke {
     public static void listTasks() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Here are the tasks in your list:");
-        for(int i = 0; i< taskCount; i++){
+        for (int i = 0; i< taskCount; i++) {
             System.out.println((i+1)+"."+tasks[i].toString());
         }
         System.out.println(HORIZONTAL_LINE);
+    }
+    public static Boolean checkDoneNum(){
+        boolean isNumValid = true;
+        int inputNum = 0;
+        try{
+            inputNum = Integer.parseInt(description);
+            if(inputNum > taskCount || taskCount == 0 || inputNum == 0){
+                throw new DukeException();
+            }
+        }catch(NumberFormatException e){
+            isNumValid = false;
+            System.out.println(HORIZONTAL_LINE+"\n"
+                    + "☹ OOPS!!! The task number of the one you have done is invalid!\n"
+                    +HORIZONTAL_LINE);
+        }catch (DukeException e){
+            isNumValid = false;
+            System.out.println(HORIZONTAL_LINE+"\n"
+                    + "☹ OOPS!!! You did not set that task!\n"
+                    +HORIZONTAL_LINE);
+        }
+        return isNumValid;
     }
     public static void doneTask(int taskIndex) {
         System.out.println(HORIZONTAL_LINE);
@@ -121,16 +148,88 @@ public class Duke {
     public static String processCommand() {
         return userInputLine.split(" ")[0];
     }
-    public static String processDescription(String command) {
-        return userInputLine.replace(command, " ").trim();
+    public static boolean checkDescription() {
+        boolean isDescriptionExist = true;
+        try {
+            processDescription(command);
+        }
+        catch (EmptyDescriptionException e) {
+            System.out.println(HORIZONTAL_LINE + "\n"
+                    + "☹ OOPS!!! The description of a " + command.toLowerCase() + " cannot be empty\n"
+                    + HORIZONTAL_LINE);
+            isDescriptionExist = false;
+        }
+        return isDescriptionExist;
     }
-    public static void processDeadline(String description) {
-        taskName = description.substring(0, description.indexOf("/by")).trim();
-        taskTime = description.substring(description.indexOf("/by") + 3).trim();
+    public static void processDescription(String command) throws EmptyDescriptionException{
+        description = userInputLine.replace(command, " ").trim();
+        if (description.isEmpty()) {
+            throw new EmptyDescriptionException();
+        }
     }
-    public static void processEvent(String description) {
-        taskName = description.substring(0, description.indexOf("/at")).trim();
-        taskTime = description.substring(description.indexOf("/at") + 3).trim();
+
+    public static boolean checkDeadline(){
+        boolean isDescriptionValid = true;
+        try{
+            processDeadline(description);
+        }catch (InvalidKeywordException e){
+            System.out.println(HORIZONTAL_LINE + "\n"
+                    + "☹ OOPS!!! The key word '/by' is missing or incomplete.\n"
+                    + HORIZONTAL_LINE);
+            isDescriptionValid = false;
+        }catch (EmptyDescriptionException e){
+            System.out.println(HORIZONTAL_LINE + "\n"
+                    + "☹ OOPS!!! The deadline name or time should not be empty\n"
+                    + HORIZONTAL_LINE);
+            isDescriptionValid = false;
+        }
+        return isDescriptionValid;
+    }
+
+    public static void processDeadline(String description) throws InvalidKeywordException,EmptyDescriptionException {
+        try {
+            taskName = description.substring(0, description.indexOf("/by")).trim();
+            taskTime = description.substring(description.indexOf("/by") + 3).trim();
+        }catch (IndexOutOfBoundsException e){
+            throw new InvalidKeywordException();
+        }
+        if(taskName.isEmpty()){
+            throw new EmptyDescriptionException();
+        }
+        else if(taskTime.isEmpty()){
+            throw new EmptyDescriptionException();
+        }
+    }
+    public static boolean checkEvent(){
+        boolean isDescriptionValid = true;
+        try{
+            processEvent(description);
+        }catch (InvalidKeywordException e){
+            System.out.println(HORIZONTAL_LINE + "\n"
+                    + "☹ OOPS!!! The key word '/at' is missing or incomplete.\n"
+                    + HORIZONTAL_LINE);
+            isDescriptionValid = false;
+        }catch (EmptyDescriptionException e){
+            System.out.println(HORIZONTAL_LINE + "\n"
+                    + "☹ OOPS!!! The event name or time should not be empty\n"
+                    + HORIZONTAL_LINE);
+            isDescriptionValid = false;
+        }
+        return isDescriptionValid;
+    }
+    public static void processEvent(String description) throws InvalidKeywordException,EmptyDescriptionException{
+        try {
+            taskName = description.substring(0, description.indexOf("/at")).trim();
+            taskTime = description.substring(description.indexOf("/at") + 3).trim();
+        }catch (IndexOutOfBoundsException e){
+            throw new InvalidKeywordException();
+        }
+        if(taskName.isEmpty()){
+            throw new EmptyDescriptionException();
+        }
+        else if(taskTime.isEmpty()){
+            throw new EmptyDescriptionException();
+        }
     }
 
 }
