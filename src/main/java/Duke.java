@@ -29,10 +29,14 @@ public class Duke {
                 listTasks();
                 break;
             case "DONE":
-                doneTask(Integer.parseInt(description));
+                if(checkDescription()) {
+                    doneTask(Integer.parseInt(description));
+                }
                 break;
             case "TODO":
-                addTask(new ToDo(description));
+                if(checkDescription()) {
+                    addTask(new ToDo(description));
+                }
                 break;
             case "DEADLINE":
                 processDeadline(description);
@@ -93,26 +97,13 @@ public class Duke {
     }*/
 
     public static void addTask(Task t) {
-        boolean isDescriptionExist = true;
-        try {
-            processDescription(command);
-        }
-        catch (EmptyDescriptionException e) {
-            System.out.println(HORIZONTAL_LINE + "\n"
-                    + "☹ OOPS!!! The description of a todo cannot be empty\n"
-                    + HORIZONTAL_LINE);
-            isDescriptionExist = false;
-        }
-        if (isDescriptionExist) {
-            tasks[taskCount] = t;
-            taskCount ++;
-            System.out.println(HORIZONTAL_LINE + "\n"
-                    + "Got it. I've added this task:\n"
-                    + "  " +t.toString() + "\n"
-                    + "Now you have "+ taskCount + " tasks in the list\n"
-                    + HORIZONTAL_LINE);
-        }
-
+        tasks[taskCount] = t;
+        taskCount ++;
+        System.out.println(HORIZONTAL_LINE + "\n"
+                + "Got it. I've added this task:\n"
+                + "  " +t.toString() + "\n"
+                + "Now you have "+ taskCount + " tasks in the list\n"
+                + HORIZONTAL_LINE);
     }
     public static void listTasks() {
         System.out.println(HORIZONTAL_LINE + "\n"
@@ -132,6 +123,19 @@ public class Duke {
 
     public static String processCommand() {
         return userInputLine.split(" ")[0];
+    }
+    public static boolean checkDescription() {
+        boolean isDescriptionExist = true;
+        try {
+            processDescription(command);
+        }
+        catch (EmptyDescriptionException e) {
+            System.out.println(HORIZONTAL_LINE + "\n"
+                    + "☹ OOPS!!! The description of a " + command.toLowerCase() + " cannot be empty\n"
+                    + HORIZONTAL_LINE);
+            isDescriptionExist = false;
+        }
+        return isDescriptionExist;
     }
     public static void processDescription(String command) throws EmptyDescriptionException{
         description = userInputLine.replace(command, " ").trim();
