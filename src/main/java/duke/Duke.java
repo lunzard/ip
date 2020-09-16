@@ -8,7 +8,11 @@ import duke.tasks.Event;
 import duke.tasks.Task;
 import duke.tasks.ToDo;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Duke {
 
@@ -22,7 +26,10 @@ public class Duke {
     private static String taskName;
     private static String taskTime;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        //auto load
+        File autoSaveFile = new File("data/duke.txt");
+        checkFileExistence(autoSaveFile);
 
         Scanner in = new Scanner(System.in);
         boolean isQuit = false;
@@ -69,6 +76,8 @@ public class Duke {
                 printErrorInfo();
                 break;
             }
+
+            autoSave(autoSaveFile);
         }
     }
 
@@ -119,6 +128,7 @@ public class Duke {
                 + "  " +t.toString() + "\n"
                 + "Now you have "+ taskCount + " duke.tasks in the list\n"
                 + HORIZONTAL_LINE);
+
     }
     public static void listTasks() {
         System.out.println(HORIZONTAL_LINE + "\n"
@@ -241,6 +251,39 @@ public class Duke {
         else if (taskTime.isEmpty()) {
             throw new EmptyDescriptionException();
         }
+    }
+
+    public static void checkFileExistence(File fileName){
+        try{
+            readFile(fileName);
+        }catch(FileNotFoundException e){
+            if(fileName.isDirectory()) {
+                System.out.println(HORIZONTAL_LINE + "\n"
+                        + "File does not exist\n"
+                        + HORIZONTAL_LINE);
+            }
+            else{
+                System.out.println(HORIZONTAL_LINE + "\n"   //how to check folders?
+                        + "Folder does not exist\n"
+                        + HORIZONTAL_LINE);
+            }
+        }
+    }
+    public static void readFile(File fileName) throws FileNotFoundException {
+        if(fileName.exists()){
+            Scanner s = new Scanner(fileName);
+        }
+        else {
+            throw new FileNotFoundException();
+        }
+    }
+    public static void autoSave(File fileName) throws IOException{
+        String filePath = fileName.getPath();
+        FileWriter fw = new FileWriter(filePath,true);
+        for(int i = 0; i< tasks.length; i++){
+            fw.write(tasks[i].toString());
+        }
+        fw.close();
     }
 
 }
