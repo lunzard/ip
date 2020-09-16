@@ -8,13 +8,13 @@ import duke.tasks.Event;
 import duke.tasks.Task;
 import duke.tasks.ToDo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
 
     public static final String HORIZONTAL_LINE = "____________________________________________________________";
-    public static final int MAX_TASK_SIZE = 100;
-    private static Task[] tasks = new Task[MAX_TASK_SIZE];
+    private static ArrayList<Task> tasks = new ArrayList<>();
     private static int taskCount = 0;
     private static String userInputLine;
     private static String command;  // one question: when to make those variable static?
@@ -39,7 +39,7 @@ public class Duke {
                 listTasks();
                 break;
             case "DONE":
-                if(checkDescription() && checkDoneNum()) {
+                if(checkDescription() && checkTaskNum()) {
                     doneTask(Integer.parseInt(description));
                 }
                 break;
@@ -56,6 +56,11 @@ public class Duke {
             case "EVENT":
                 if(checkDescription() && checkEvent()) {
                     addTask(new Event(taskName, taskTime));
+                }
+                break;
+            case "DELETE":
+                if (checkDescription() && checkTaskNum()){
+                    deleteTask(Integer.parseInt(description));
                 }
                 break;
             case "BYE":
@@ -78,7 +83,7 @@ public class Duke {
     }
 
     private static void printErrorInfo() {
-        System.out.println(HORIZONTAL_LINE
+        System.out.println(HORIZONTAL_LINE + "\n"
                 + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n"
                 + " pls refer to the commands by typing 'help'.\n"
                 + HORIZONTAL_LINE );
@@ -107,13 +112,9 @@ public class Duke {
         System.out.println(HORIZONTAL_LINE + "\n" + bye_word + "\n" + HORIZONTAL_LINE);
     }
 
-    /*public static void echoCommand(String userInput) {
-        System.out.println(HORIZONTAL_LINE + "\n" + userInput + "\n" + HORIZONTAL_LINE);
-    }*/
-
     public static void addTask(Task t) {
-        tasks[taskCount] = t;
-        taskCount ++;
+        tasks.add(t);
+        taskCount = tasks.size();
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Got it. I've added this task:\n"
                 + "  " +t.toString() + "\n"
@@ -124,11 +125,12 @@ public class Duke {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Here are the duke.tasks in your list:");
         for (int i = 0; i< taskCount; i++) {
-            System.out.println((i+1)+"."+tasks[i].toString());
+            System.out.println((i+1)+"."+tasks.get(i).toString());
         }
         System.out.println(HORIZONTAL_LINE);
     }
-    public static Boolean checkDoneNum() {
+
+    public static Boolean checkTaskNum() {
         boolean isNumValid = true;
         try{
             int inputNum = Integer.parseInt(description);
@@ -150,11 +152,23 @@ public class Duke {
     }
     public static void doneTask(int taskIndex) {
         System.out.println(HORIZONTAL_LINE);
-        tasks[taskIndex-1].markAsDone();
+        tasks.get(taskIndex - 1).markAsDone();
         System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + tasks[taskIndex-1].toString());
+        System.out.println("  " + tasks.get(taskIndex - 1).toString());
         System.out.println(HORIZONTAL_LINE);
     }
+
+    public static void deleteTask(int taskIndex) {
+        System.out.println(HORIZONTAL_LINE + "\n"
+                + "Noted. I've removed this task:\n"
+                + tasks.get(taskIndex - 1).toString());
+        tasks.remove(taskIndex - 1);
+        taskCount = tasks.size();
+        System.out.println("Now you have "+ taskCount +" tasks in the list.\n"
+                + HORIZONTAL_LINE);
+    }
+
+
 
     public static String processCommand() {
         return userInputLine.split(" ")[0];
