@@ -12,4 +12,9 @@ public class Event extends Task{
     public String toString(){
         return "[E]" + super.toString() + " (at: " + at + ")";
     }
+
+    @Override
+    public String saveAsText(){
+        return "E | "+ ((this.isDone)? "1" : "0")+ " | " + this.name + " | " + this.at;
+    }
 }

@@ -22,15 +22,21 @@ public class Duke {
     private static ArrayList<Task> tasks = new ArrayList<>();
     private static int taskCount = 0;
     private static String userInputLine;
-    private static String command;  // one question: when to make those variable static?
+    private static String command;  
     private static String description;
     private static String taskName;
     private static String taskTime;
 
     public static void main(String[] args) throws IOException {
         //auto load
-        File autoSaveFile = new File("data/duke.txt");
-        checkFileExistence(autoSaveFile);
+        File autoSavedFile = new File("data/duke.txt");
+        System.out.println("loading the previous file ...");
+        if(checkFileExistence(autoSavedFile)){
+            System.out.println("finished loading!");
+        }
+        else {
+            System.out.println("working on a new file!");
+        }
 
         Scanner in = new Scanner(System.in);
         boolean isQuit = false;
@@ -82,9 +88,8 @@ public class Duke {
                 printErrorInfo();
                 break;
             }
-
-            autoSave(autoSaveFile);
         }
+        autoSave(autoSavedFile);
     }
 
     private static void processInput(Scanner in) {
@@ -132,6 +137,12 @@ public class Duke {
                 + HORIZONTAL_LINE);
 
     }
+
+    public static void addTaskSilent(Task t) {
+        tasks.add(t);
+        taskCount = tasks.size();
+    }
+
     public static void listTasks() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Here are the duke.tasks in your list:");
@@ -167,6 +178,10 @@ public class Duke {
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  " + tasks.get(taskIndex - 1).toString());
         System.out.println(HORIZONTAL_LINE);
+    }
+
+    public static void doneTaskSilent(int taskIndex) {
+        tasks.get(taskIndex - 1).markAsDone();
     }
 
     public static void deleteTask(int taskIndex) {
@@ -268,25 +283,34 @@ public class Duke {
         }
     }
 
-    public static void checkFileExistence(File fileName){
+    public static boolean checkFileExistence(File fileName){
+        boolean isExist = false;
         try{
-            readFile(fileName);
+            autoLoad(fileName);
+            isExist = true;
         }catch(FileNotFoundException e){
             if(fileName.isDirectory()) {
                 System.out.println(HORIZONTAL_LINE + "\n"
-                        + "File does not exist\n"
+                        + "File does not exist, creating new file ...\n"
                         + HORIZONTAL_LINE);
+                createSavedFile(fileName);
             }
             else{
                 System.out.println(HORIZONTAL_LINE + "\n"   //how to check folders?
-                        + "Folder does not exist\n"
+                        + "Folder does not exist, creating new folder and file ...\n"
                         + HORIZONTAL_LINE);
+                createDirectory(fileName);
             }
         }
+        return isExist;
     }
-    public static void readFile(File fileName) throws FileNotFoundException {
+    public static void autoLoad(File fileName) throws FileNotFoundException {
         if(fileName.exists()){
-            Scanner s = new Scanner(fileName);
+            Scanner rs= new Scanner(fileName);
+            while(rs.hasNext()){
+                String record = rs.nextLine();
+                processRecord(record);
+            }
         }
         else {
             throw new FileNotFoundException();
@@ -294,11 +318,50 @@ public class Duke {
     }
     public static void autoSave(File fileName) throws IOException{
         String filePath = fileName.getPath();
+        new FileWriter(fileName, false).close();
         FileWriter fw = new FileWriter(filePath,true);
         for(int i = 0; i< tasks.size(); i++){
-            fw.write(tasks.get(i).toString());
+            fw.write(tasks.get(i).saveAsText() + System.lineSeparator());
         }
         fw.close();
+    }
+
+    public static void createDirectory(File file){
+        boolean isCreated = file.mkdir();
+        if(isCreated){
+            System.out.println("Directory created successfully");
+        }
+        else{
+            System.out.println("Sorry, Directory cannot be created");
+        }
+    }
+
+    public static void createSavedFile(File file){
+        try {
+            file.createNewFile();
+        }catch (IOException e){
+            System.out.println("Sorry, file cannot be created");
+        }
+    }
+
+    public static void processRecord(String record){
+        String[] recordInfos = record.split(" \\| ");
+        switch (recordInfos[0]){
+        case "T":
+            addTaskSilent(new ToDo(recordInfos[2]));
+            break;
+        case "D":
+            addTaskSilent(new Deadline(recordInfos[2], recordInfos[3]));
+            break;
+        case "E":
+            addTaskSilent(new Event(recordInfos[2], recordInfos[3]));
+            break;
+        default:
+            break;
+        }
+        if(recordInfos[1].equals("1")) {
+            doneTaskSilent(tasks.size());
+        }
     }
 
 }
