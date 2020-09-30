@@ -16,25 +16,50 @@ public class TaskList {
         taskCount = 0;
     }
 
+
+    /**
+     * Add new task to the taskList(Arraylist).
+     * @param t new task to be added.
+     */
     public void addTask(Task t) {
+        master
         tasks.add(t);
         taskCount = tasks.size();
         ui.showAddTaskSuccessful(t.toString(), taskCount);
     }
+
+    /**
+     * Add new task to the taskList(Arraylist) without any UI displayed.
+     * Usually used for Auto-Load and Auto-Save.
+     * @param t new task to be added.
+     */
     public void addTaskSilent(Task t) {
+        master
         tasks.add(t);
         taskCount = tasks.size();
     }
 
-    public void doneTask(int taskIndex) {
+
+    /**
+     * Finished task by marking a tick.
+     * @param taskIndex the index of task done out of the taskList.
+     */
+    public static void doneTask(int taskIndex) {
         tasks.get(taskIndex - 1).markAsDone();
         ui.showTaskDone(tasks.get(taskIndex - 1).toString());
     }
-
-    public void doneTaskSilent(int taskIndex) {
+    /**
+     * Finished task by marking a tick, without any UI displayed.
+     * Usually used for Auto-Load and Auto-Save.
+     * @param taskIndex the index of task done out of the taskList.
+     */
+    public static void doneTaskSilent(int taskIndex) {
         tasks.get(taskIndex - 1).markAsDone();
     }
 
+    /**
+     * Print all tasks in taskList in a column.
+     */
     public void listTasks() {
         ui.sayShowTaskList();
         for (int i = 0; i< taskCount; i++) {
@@ -42,6 +67,11 @@ public class TaskList {
         }
         ui.showSplitter();
     }
+
+    /**
+     * Remove task of given index from the taskList, and update the List.
+     * @param taskIndex he index of task removed out of the taskList.
+     */
     public void deleteTask(int taskIndex) {
         ui.showTaskDeleting(tasks.get(taskIndex - 1).toString());
         tasks.remove(taskIndex - 1);
