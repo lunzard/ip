@@ -18,14 +18,29 @@ public class Parser {
     String taskName;
     String taskTime;
 
+    /**
+     * Get command text from the user input.
+     * @param in userInput in Scanner.
+     */
     public void processInput(Scanner in) {
         userInputLine = in.nextLine();
         command = processCommand(userInputLine);
     }
 
+    /**
+     * Split the first part of userInput.
+     * Get command text.
+     * @param userInputLine userInput in String.
+     * @return command text.
+     */
     public String processCommand(String userInputLine) {
         return userInputLine.split(" ")[0];
     }
+    /**
+     * Execute according to the command.
+     * @param command command type.
+     * @param tasks Arraylist of tasks.
+     */
     public void respondToCommand(String command, TaskList tasks) {
         switch (command.toUpperCase()) {
         case "LIST":
