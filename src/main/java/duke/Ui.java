@@ -5,6 +5,9 @@ import duke.tasks.Task;
 public class Ui {
     public static final String HORIZONTAL_LINE = "____________________________________________________________";
 
+    public Ui() {
+    }
+
     public void showSplitter(){
         System.out.println(HORIZONTAL_LINE);
     }
