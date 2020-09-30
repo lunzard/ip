@@ -22,7 +22,6 @@ public class TaskList {
      * @param t new task to be added.
      */
     public void addTask(Task t) {
-        master
         tasks.add(t);
         taskCount = tasks.size();
         ui.showAddTaskSuccessful(t.toString(), taskCount);
@@ -34,7 +33,6 @@ public class TaskList {
      * @param t new task to be added.
      */
     public void addTaskSilent(Task t) {
-        master
         tasks.add(t);
         taskCount = tasks.size();
     }
@@ -82,7 +80,7 @@ public class TaskList {
     public void findMatchingTasks(String keyWord){
         ui.showMatchingTasks();
         for (int i = 0; i< taskCount; i++) {
-            if(tasks.get(i).toString().indexOf(keyWord) >= 0){
+            if(tasks.get(i).toString().contains(keyWord)){
                 System.out.println((i+1)+"."+tasks.get(i).toString());
             }
         }
