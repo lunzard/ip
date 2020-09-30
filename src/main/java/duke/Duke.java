@@ -18,7 +18,6 @@ import java.io.IOException;
 
 public class Duke {
 
-    public static final String HORIZONTAL_LINE = "____________________________________________________________";
     private static ArrayList<Task> tasks = new ArrayList<>();
     private static int taskCount = 0;
     private static String userInputLine;
@@ -26,25 +25,28 @@ public class Duke {
     private static String description;
     private static String taskName;
     private static String taskTime;
+    private static Ui ui;
 
     public static void main(String[] args) throws IOException {
+        ui = new Ui();
+
         //auto load
         File autoSavedFileDir = new File("data");
         File autoSavedFile = new File("data/duke.txt");
-        System.out.println("loading the previous file ...");
+        ui.showLoadingProcess();
         if(checkFileExistence(autoSavedFileDir,autoSavedFile)){
-            System.out.println("finished loading!");
+            ui.showLoadingFinished();
         }
         else {
-            System.out.println("working on a new file!");
+            ui.showNewFileDetected();
         }
 
         Scanner in = new Scanner(System.in);
         boolean isQuit = false;
 
         //when the program starts
-        showLogo();
-        greet();
+        ui.showLogo();
+        ui.greet();
 
         while(!isQuit) {
             processInput(in);
@@ -80,13 +82,13 @@ public class Duke {
                 break;
             case "BYE":
                 isQuit = true;
-                bye();
+                ui.bye();
                 break;
             case "HELP":
-                printHelpInfo();
+                ui.printHelpInfo();
                 break;
             default:
-                printErrorInfo();
+                ui.printCommandError();
                 break;
             }
         }
@@ -98,45 +100,10 @@ public class Duke {
             command = processCommand();
     }
 
-    private static void printErrorInfo() {
-        System.out.println(HORIZONTAL_LINE + "\n"
-                + "☹ OOPS!!! I'm sorry, but I don't know what that means :-(\n"
-                + " pls refer to the commands by typing 'help'.\n"
-                + HORIZONTAL_LINE );
-    }
-    private static void printHelpInfo() {
-        System.out.println(HORIZONTAL_LINE + "\n"
-                + "LIST, DONE, TODO, DEADLINE, EVENT, BYE, HELP\n"
-                + HORIZONTAL_LINE);
-    }
-
-    public static void showLogo() {
-        String logo = " ____        _\n"
-                    + "|  _ \\ _   _| | _____\n"
-                    + "| | | | | | | |/ / _ \\\n"
-                    + "| |_| | |_| |   <  __/\n"
-                    + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println(HORIZONTAL_LINE+ "\n" + logo);
-    }
-    public static void greet() {
-        String greeting = "Hello! I'm duke.Duke\n"
-                        + "What can I do for you?\n";
-        System.out.println(HORIZONTAL_LINE + "\n" + greeting + HORIZONTAL_LINE);
-    }
-    public static void bye() {
-        String bye_word = "Bye. Hope to see you again soon!";
-        System.out.println(HORIZONTAL_LINE + "\n" + bye_word + "\n" + HORIZONTAL_LINE);
-    }
-
     public static void addTask(Task t) {
         tasks.add(t);
         taskCount = tasks.size();
-        System.out.println(HORIZONTAL_LINE + "\n"
-                + "Got it. I've added this task:\n"
-                + "  " +t.toString() + "\n"
-                + "Now you have "+ taskCount + " duke.tasks in the list\n"
-                + HORIZONTAL_LINE);
-
+        ui.showAddTaskSuccessful(t.toString(), taskCount);
     }
 
     public static void addTaskSilent(Task t) {
@@ -145,12 +112,11 @@ public class Duke {
     }
 
     public static void listTasks() {
-        System.out.println(HORIZONTAL_LINE + "\n"
-                + "Here are the duke.tasks in your list:");
+        ui.sayShowTaskList();
         for (int i = 0; i< taskCount; i++) {
             System.out.println((i+1)+"."+tasks.get(i).toString());
         }
-        System.out.println(HORIZONTAL_LINE);
+        ui.showSplitter();
     }
 
     public static Boolean checkTaskNum() {
@@ -162,23 +128,16 @@ public class Duke {
             }
         }catch (NumberFormatException e) {
             isNumValid = false;
-            System.out.println(HORIZONTAL_LINE+"\n"
-                    + "☹ OOPS!!! The task number of the one you have done is invalid!\n"
-                    +HORIZONTAL_LINE);
+            ui.printInvalidTaskNumError();
         }catch (DukeException e) {
             isNumValid = false;
-            System.out.println(HORIZONTAL_LINE+"\n"
-                    + "☹ OOPS!!! You did not set that task!\n"
-                    +HORIZONTAL_LINE);
+            ui.printNotSetTaskNumError();
         }
         return isNumValid;
     }
     public static void doneTask(int taskIndex) {
-        System.out.println(HORIZONTAL_LINE);
         tasks.get(taskIndex - 1).markAsDone();
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + tasks.get(taskIndex - 1).toString());
-        System.out.println(HORIZONTAL_LINE);
+        ui.showTaskDone(tasks.get(taskIndex - 1).toString());
     }
 
     public static void doneTaskSilent(int taskIndex) {
@@ -186,13 +145,10 @@ public class Duke {
     }
 
     public static void deleteTask(int taskIndex) {
-        System.out.println(HORIZONTAL_LINE + "\n"
-                + "Noted. I've removed this task:\n"
-                + tasks.get(taskIndex - 1).toString());
+        ui.showTaskDeleting(tasks.get(taskIndex - 1).toString());
         tasks.remove(taskIndex - 1);
         taskCount = tasks.size();
-        System.out.println("Now you have "+ taskCount +" tasks in the list.\n"
-                + HORIZONTAL_LINE);
+        ui.showTaskNum(taskCount);
     }
 
 
@@ -206,9 +162,7 @@ public class Duke {
             processDescription(command);
         }
         catch (EmptyDescriptionException e) {
-            System.out.println(HORIZONTAL_LINE + "\n"
-                    + "☹ OOPS!!! The description of a " + command.toLowerCase() + " cannot be empty\n"
-                    + HORIZONTAL_LINE);
+            ui.showEmptyDescriptionError(command.toLowerCase());
             isDescriptionExist = false;
         }
         return isDescriptionExist;
@@ -225,14 +179,10 @@ public class Duke {
         try{
             processDeadline(description);
         }catch (InvalidKeywordException e) {
-            System.out.println(HORIZONTAL_LINE + "\n"
-                    + "☹ OOPS!!! The key word '/by' is missing or incomplete.\n"
-                    + HORIZONTAL_LINE);
+            ui.showDeadlineKeywordError();
             isDescriptionValid = false;
         }catch (EmptyDescriptionException e) {
-            System.out.println(HORIZONTAL_LINE + "\n"
-                    + "☹ OOPS!!! The deadline name or time should not be empty\n"
-                    + HORIZONTAL_LINE);
+            ui.showDeadlineInputError();
             isDescriptionValid = false;
         }
         return isDescriptionValid;
@@ -257,14 +207,10 @@ public class Duke {
         try{
             processEvent(description);
         }catch (InvalidKeywordException e) {
-            System.out.println(HORIZONTAL_LINE + "\n"
-                    + "☹ OOPS!!! The key word '/at' is missing or incomplete.\n"
-                    + HORIZONTAL_LINE);
+            ui.showEventKeywordError();
             isDescriptionValid = false;
         }catch (EmptyDescriptionException e) {
-            System.out.println(HORIZONTAL_LINE + "\n"
-                    + "☹ OOPS!!! The event name or time should not be empty\n"
-                    + HORIZONTAL_LINE);
+            ui.showEventInputError();
             isDescriptionValid = false;
         }
         return isDescriptionValid;
@@ -291,14 +237,10 @@ public class Duke {
             isExist = true;
         }catch(FileNotFoundException e){
             if(fileName.isDirectory()) {
-                System.out.println(HORIZONTAL_LINE + "\n"
-                        + "File does not exist, creating new file ...\n"
-                        + HORIZONTAL_LINE);
+                ui.showMissingFile();
             }
             else{
-                System.out.println(HORIZONTAL_LINE + "\n"   //how to check folders?
-                        + "Folder does not exist, creating new folder and file ...\n"
-                        + HORIZONTAL_LINE);
+                ui.showMissingFolder();
                 createDirectory(dirName);
             }
             createSavedFile(fileName);
@@ -330,10 +272,10 @@ public class Duke {
     public static void createDirectory(File dir){
         boolean isCreated = dir.mkdirs();
         if(isCreated){
-            System.out.println("Directory created successfully");
+            ui.showDirCreatedSucceed();
         }
         else{
-            System.out.println("Sorry, Directory cannot be created");
+            ui.showDirCreatedFail();
         }
     }
 
@@ -341,7 +283,7 @@ public class Duke {
         try {
             file.createNewFile();
         }catch (IOException e){
-            System.out.println("Sorry, file cannot be created");
+            ui.showFileCreatedFail();
         }
     }
 
