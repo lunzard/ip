@@ -8,6 +8,8 @@ import duke.tasks.Event;
 import duke.tasks.TaskList;
 import duke.tasks.ToDo;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Parser {
@@ -17,6 +19,9 @@ public class Parser {
     String description;
     String taskName;
     String taskTime;
+    String formattedTime;
+    String formattedDate;
+    LocalDate standardDate;
 
     public void processInput(Scanner in) {
         userInputLine = in.nextLine();
@@ -120,6 +125,9 @@ public class Parser {
         try {
             taskName = description.substring(0, description.indexOf("/by")).trim();
             taskTime = description.substring(description.indexOf("/by") + 3).trim();
+            if(getDateAndTime()){
+                taskTime = formattedDate + ", " + formattedTime;
+            }
         }catch (IndexOutOfBoundsException e) {
             throw new InvalidKeywordException();
         }
@@ -157,4 +165,35 @@ public class Parser {
             throw new EmptyDescriptionException();
         }
     }
+    public boolean getDateAndTime(){
+        boolean isFormative = false;
+        boolean isDateFormative = false;
+        boolean isTimeFormative = false;
+        if(!taskTime.contains(" ")){
+            return isFormative;
+        }
+        String unformattedDate = taskTime.split(" ")[0];
+        String unformattedTime = taskTime.split(" ")[1];
+        String[] dates = unformattedDate.split("/");
+        if(Integer.parseInt(dates[0]) <= 31
+                && Integer.parseInt(dates[1]) <= 12
+                && Integer.parseInt(dates[2]) <= 2050
+                && Integer.parseInt(dates[2]) >=1950){
+            standardDate = LocalDate.parse(dates[2]+ "-" + dates[1] + "-"
+                    + (((Integer.parseInt(dates[0])) < 10) ? ("0" + dates[0]): dates[0]));
+            isDateFormative = true;
+        }
+        if (unformattedTime.length() == 4
+                && Integer.parseInt(unformattedTime.substring(0, 2)) <= 24
+                &&Integer.parseInt(unformattedTime.substring(2, 4)) <= 59){
+            formattedTime = unformattedTime;
+            isTimeFormative = true;
+        }
+        if(isDateFormative && isTimeFormative){
+            isFormative = true;
+            formattedDate = standardDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")); // qn: follow what language?
+        }
+        return  isFormative;
+    }
+
 }
