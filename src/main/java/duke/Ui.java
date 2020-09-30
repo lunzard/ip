@@ -52,7 +52,7 @@ public class Ui {
     public void showAddTaskSuccessful(String taskInfo, int taskCount){
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Got it. I've added this task:\n"
-                + "  " +taskInfo.toString() + "\n"
+                + "  " +taskInfo + "\n"
                 + "Now you have "+ taskCount + " duke.tasks in the list\n"
                 + HORIZONTAL_LINE);
     }
