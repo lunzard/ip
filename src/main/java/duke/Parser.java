@@ -56,6 +56,11 @@ public class Parser {
                 tasks.deleteTask(Integer.parseInt(description));
             }
             break;
+        case "FIND":
+            if(checkDescription(command)) {
+                tasks.findMatchingTasks(description);
+            }
+            break;
         case "BYE":
             Duke.isQuit = true;
             ui.bye();
