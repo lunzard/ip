@@ -104,24 +104,24 @@ public class Ui {
                 + HORIZONTAL_LINE);
     }
     public void showEventKeywordError(){
-        System.out.println(Ui.HORIZONTAL_LINE + "\n"
+        System.out.println(HORIZONTAL_LINE + "\n"
                 + "☹ OOPS!!! The key word '/at' is missing or incomplete.\n"
-                + Ui.HORIZONTAL_LINE);
+                + HORIZONTAL_LINE);
     }
     public void showEventInputError(){
-        System.out.println(Ui.HORIZONTAL_LINE + "\n"
+        System.out.println(HORIZONTAL_LINE + "\n"
                 + "☹ OOPS!!! The event name or time should not be empty\n"
-                + Ui.HORIZONTAL_LINE);
+                + HORIZONTAL_LINE);
     }
     public void showMissingFile(){
-        System.out.println(Ui.HORIZONTAL_LINE + "\n"
+        System.out.println(HORIZONTAL_LINE + "\n"
                 + "File does not exist, creating new file ...\n"
-                + Ui.HORIZONTAL_LINE);
+                + HORIZONTAL_LINE);
     }
     public void showMissingFolder(){
-        System.out.println(Ui.HORIZONTAL_LINE + "\n"   //how to check folders?
+        System.out.println(HORIZONTAL_LINE + "\n"   //how to check folders?
                 + "Folder does not exist, creating new folder and file ...\n"
-                + Ui.HORIZONTAL_LINE);
+                + HORIZONTAL_LINE);
     }
     public void showDirCreatedSucceed(){
         System.out.println("Directory created successfully");
@@ -131,5 +131,9 @@ public class Ui {
     }
     public void showFileCreatedFail(){
         System.out.println("Sorry, file cannot be created");
+    }
+    public void showMatchingTasks(){
+        System.out.println(HORIZONTAL_LINE+"\n"
+                +"Here are the matching tasks in your list:");
     }
 }
