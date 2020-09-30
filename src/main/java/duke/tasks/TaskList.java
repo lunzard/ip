@@ -16,24 +16,29 @@ public class TaskList {
         taskCount = 0;
     }
 
+
     /**
      * Add new task to the taskList(Arraylist).
      * @param t new task to be added.
      */
-    public static void addTask(Task t) {
+    public void addTask(Task t) {
+        master
         tasks.add(t);
         taskCount = tasks.size();
         ui.showAddTaskSuccessful(t.toString(), taskCount);
     }
+
     /**
      * Add new task to the taskList(Arraylist) without any UI displayed.
      * Usually used for Auto-Load and Auto-Save.
      * @param t new task to be added.
      */
-    public static void addTaskSilent(Task t) {
+    public void addTaskSilent(Task t) {
+        master
         tasks.add(t);
         taskCount = tasks.size();
     }
+
 
     /**
      * Finished task by marking a tick.
@@ -55,21 +60,32 @@ public class TaskList {
     /**
      * Print all tasks in taskList in a column.
      */
-    public static void listTasks() {
+    public void listTasks() {
         ui.sayShowTaskList();
         for (int i = 0; i< taskCount; i++) {
             System.out.println((i+1)+"."+tasks.get(i).toString());
         }
         ui.showSplitter();
     }
+
     /**
      * Remove task of given index from the taskList, and update the List.
      * @param taskIndex he index of task removed out of the taskList.
      */
-    public static void deleteTask(int taskIndex) {
+    public void deleteTask(int taskIndex) {
         ui.showTaskDeleting(tasks.get(taskIndex - 1).toString());
         tasks.remove(taskIndex - 1);
         taskCount = tasks.size();
         ui.showTaskNum(taskCount);
+    }
+
+    public void findMatchingTasks(String keyWord){
+        ui.showMatchingTasks();
+        for (int i = 0; i< taskCount; i++) {
+            if(tasks.get(i).toString().indexOf(keyWord) >= 0){
+                System.out.println((i+1)+"."+tasks.get(i).toString());
+            }
+        }
+        ui.showSplitter();
     }
 }
