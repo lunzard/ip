@@ -29,9 +29,10 @@ public class Duke {
 
     public static void main(String[] args) throws IOException {
         //auto load
+        File autoSavedFileDir = new File("data");
         File autoSavedFile = new File("data/duke.txt");
         System.out.println("loading the previous file ...");
-        if(checkFileExistence(autoSavedFile)){
+        if(checkFileExistence(autoSavedFileDir,autoSavedFile)){
             System.out.println("finished loading!");
         }
         else {
@@ -283,7 +284,7 @@ public class Duke {
         }
     }
 
-    public static boolean checkFileExistence(File fileName){
+    public static boolean checkFileExistence(File dirName,File fileName){
         boolean isExist = false;
         try{
             autoLoad(fileName);
@@ -293,14 +294,14 @@ public class Duke {
                 System.out.println(HORIZONTAL_LINE + "\n"
                         + "File does not exist, creating new file ...\n"
                         + HORIZONTAL_LINE);
-                createSavedFile(fileName);
             }
             else{
                 System.out.println(HORIZONTAL_LINE + "\n"   //how to check folders?
                         + "Folder does not exist, creating new folder and file ...\n"
                         + HORIZONTAL_LINE);
-                createDirectory(fileName);
+                createDirectory(dirName);
             }
+            createSavedFile(fileName);
         }
         return isExist;
     }
@@ -326,8 +327,8 @@ public class Duke {
         fw.close();
     }
 
-    public static void createDirectory(File file){
-        boolean isCreated = file.mkdir();
+    public static void createDirectory(File dir){
+        boolean isCreated = dir.mkdirs();
         if(isCreated){
             System.out.println("Directory created successfully");
         }
