@@ -1,6 +1,6 @@
 package duke.tasks;
 
-public class Event extends Task{
+public class Event extends Task {
 
     protected String at;    //start and end time
 

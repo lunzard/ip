@@ -27,9 +27,9 @@ public class Storage {
         this.autoSavedFile = new File(autoSavedFileName);
     }
 
-    public void init(TaskList tasks){
+    public void init(TaskList tasks) {
         ui.showLoadingProcess();
-        if(checkFileExistence(autoSavedFileDir,autoSavedFile, tasks)){
+        if(checkFileExistence(autoSavedFileDir,autoSavedFile, tasks)) {
             ui.showLoadingFinished();
         }
         else {
@@ -38,12 +38,12 @@ public class Storage {
     }
 
 
-    public boolean checkFileExistence(File dirName,File fileName, TaskList tasks){
+    public boolean checkFileExistence(File dirName,File fileName, TaskList tasks) {
         boolean isExist = false;
         try{
             autoLoad(fileName, tasks);
             isExist = true;
-        }catch(FileNotFoundException e){
+        }catch(FileNotFoundException e) {
             if(fileName.isDirectory()) {
                 ui.showMissingFile();
             }
@@ -68,7 +68,7 @@ public class Storage {
             throw new FileNotFoundException();
         }
     }
-    public void autoSave(File fileName, TaskList tasks) throws IOException{
+    public void autoSave(File fileName, TaskList tasks) throws IOException {
         String filePath = fileName.getPath();
         new FileWriter(fileName, false).close();
         FileWriter fw = new FileWriter(filePath,true);
@@ -77,7 +77,7 @@ public class Storage {
         }
         fw.close();
     }
-    public void createDirectory(File dir){
+    public void createDirectory(File dir) {
         boolean isCreated = dir.mkdirs();
         if(isCreated){
             ui.showDirCreatedSucceed();
@@ -87,7 +87,7 @@ public class Storage {
         }
     }
 
-    public void createSavedFile(File file){
+    public void createSavedFile(File file) {
         try {
             file.createNewFile();
         }catch (IOException e){
@@ -95,7 +95,7 @@ public class Storage {
         }
     }
 
-    public void processRecord(String record, TaskList tasks){
+    public void processRecord(String record, TaskList tasks) {
         String[] recordInfos = record.split(" \\| ");
         switch (recordInfos[0]){
         case "T":

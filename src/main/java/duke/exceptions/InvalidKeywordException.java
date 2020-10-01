@@ -1,4 +1,4 @@
 package duke.exceptions;
 
-public class InvalidKeywordException extends DukeException{
+public class InvalidKeywordException extends DukeException {
 }

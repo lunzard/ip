@@ -189,7 +189,7 @@ public class Parser {
         boolean isFormative = false;
         boolean isDateFormative = false;
         boolean isTimeFormative = false;
-        if(!taskTime.contains(" ")){
+        if(!taskTime.contains(" ")) {
             return isFormative;
         }
         String unformattedDate = taskTime.split(" ")[0];
@@ -198,18 +198,18 @@ public class Parser {
         if(Integer.parseInt(dates[0]) <= 31
                 && Integer.parseInt(dates[1]) <= 12
                 && Integer.parseInt(dates[2]) <= 2050
-                && Integer.parseInt(dates[2]) >=1950){
+                && Integer.parseInt(dates[2]) >=1950) {
             standardDate = LocalDate.parse(dates[2]+ "-" + dates[1] + "-"
                     + (((Integer.parseInt(dates[0])) < 10) ? ("0" + dates[0]): dates[0]));
             isDateFormative = true;
         }
         if (unformattedTime.length() == 4
                 && Integer.parseInt(unformattedTime.substring(0, 2)) <= 24
-                &&Integer.parseInt(unformattedTime.substring(2, 4)) <= 59){
+                &&Integer.parseInt(unformattedTime.substring(2, 4)) <= 59) {
             formattedTime = unformattedTime;
             isTimeFormative = true;
         }
-        if(isDateFormative && isTimeFormative){
+        if(isDateFormative && isTimeFormative) {
             isFormative = true;
             formattedDate = standardDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")); // need to change the locale
         }

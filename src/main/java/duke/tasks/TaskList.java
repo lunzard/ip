@@ -77,7 +77,7 @@ public class TaskList {
         ui.showTaskNum(taskCount);
     }
 
-    public void findMatchingTasks(String keyWord){
+    public void findMatchingTasks(String keyWord) {
         ui.showMatchingTasks();
         for (int i = 0; i< taskCount; i++) {
             if(tasks.get(i).toString().contains(keyWord)){

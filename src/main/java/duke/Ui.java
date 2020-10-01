@@ -6,7 +6,7 @@ public class Ui {
     public Ui() {
     }
 
-    public void showSplitter(){
+    public void showSplitter() {
         System.out.println(HORIZONTAL_LINE);
     }
     public void showLogo() {
@@ -27,11 +27,11 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE + "\n" + bye_word + "\n" + HORIZONTAL_LINE);
     }
 
-    public void showLoadingProcess(){
+    public void showLoadingProcess() {
         System.out.println("loading the previous file ...");
     }
 
-    public void showLoadingFinished(){
+    public void showLoadingFinished() {
         System.out.println("finished loading!");
     }
     public void showNewFileDetected(){
@@ -49,76 +49,76 @@ public class Ui {
                 + HORIZONTAL_LINE);
     }
 
-    public void showAddTaskSuccessful(String taskInfo, int taskCount){
+    public void showAddTaskSuccessful(String taskInfo, int taskCount) {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Got it. I've added this task:\n"
                 + "  " +taskInfo + "\n"
                 + "Now you have "+ taskCount + " tasks in the list\n"
                 + HORIZONTAL_LINE);
     }
-    public void sayShowTaskList(){
+    public void sayShowTaskList() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Here are the tasks in your list:");
     }
-    public void printInvalidTaskNumError(){
+    public void printInvalidTaskNumError() {
         System.out.println(HORIZONTAL_LINE+"\n"
                 + "☹ OOPS!!! The task number of the one you have done is invalid!\n"
                 + Ui.HORIZONTAL_LINE);
     }
-    public void printNotSetTaskNumError(){
+    public void printNotSetTaskNumError() {
         System.out.println(HORIZONTAL_LINE+"\n"
                 + "☹ OOPS!!! You did not set that task!\n"
                 + HORIZONTAL_LINE);
     }
-    public void showTaskDone(String taskInfo){
+    public void showTaskDone(String taskInfo) {
         System.out.println(HORIZONTAL_LINE);
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  " + taskInfo);
         System.out.println(HORIZONTAL_LINE);
     }
-    public void showTaskDeleting(String taskInfo){
+    public void showTaskDeleting(String taskInfo) {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Noted. I've removed this task:\n"
                 + taskInfo);
     }
-    public void showTaskNum(int taskCount){
+    public void showTaskNum(int taskCount) {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Now you have "+ taskCount + " tasks in the list\n"
                 + HORIZONTAL_LINE);
     }
 
-    public void showEmptyDescriptionError(String commandName){
+    public void showEmptyDescriptionError(String commandName) {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "☹ OOPS!!! The description of a " + commandName + " cannot be empty\n"
                 + HORIZONTAL_LINE);
     }
 
-    public void showDeadlineKeywordError(){
+    public void showDeadlineKeywordError() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "☹ OOPS!!! The key word '/by' is missing or incomplete.\n"
                 + HORIZONTAL_LINE);
     }
-    public void showDeadlineInputError(){
+    public void showDeadlineInputError() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "☹ OOPS!!! The deadline name or time should not be empty\n"
                 + HORIZONTAL_LINE);
     }
-    public void showEventKeywordError(){
+    public void showEventKeywordError() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "☹ OOPS!!! The key word '/at' is missing or incomplete.\n"
                 + HORIZONTAL_LINE);
     }
-    public void showEventInputError(){
+    public void showEventInputError() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "☹ OOPS!!! The event name or time should not be empty\n"
                 + HORIZONTAL_LINE);
     }
-    public void showMissingFile(){
+    public void showMissingFile() {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "File does not exist, creating new file ...\n"
                 + HORIZONTAL_LINE);
     }
-    public void showMissingFolder(){
+    public void showMissingFolder() {
         System.out.println(HORIZONTAL_LINE + "\n"   //how to check folders?
                 + "Folder does not exist, creating new folder and file ...\n"
                 + HORIZONTAL_LINE);
@@ -132,7 +132,7 @@ public class Ui {
     public void showFileCreatedFail(){
         System.out.println("Sorry, file cannot be created");
     }
-    public void showMatchingTasks(){
+    public void showMatchingTasks() {
         System.out.println(HORIZONTAL_LINE+"\n"
                 +"Here are the matching tasks in your list:");
     }
