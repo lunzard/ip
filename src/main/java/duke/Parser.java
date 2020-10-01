@@ -211,7 +211,7 @@ public class Parser {
         }
         if(isDateFormative && isTimeFormative){
             isFormative = true;
-            formattedDate = standardDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")); // qn: follow what language?
+            formattedDate = standardDate.format(DateTimeFormatter.ofPattern("MMM d yyyy")); // need to change the locale
         }
         return  isFormative;
     }

@@ -1,2 +1,0 @@
-T | 1 | readbook
-E | 0 | watch movie | monday

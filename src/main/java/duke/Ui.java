@@ -18,7 +18,7 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE+ "\n" + logo);
     }
     public void greet() {
-        String greeting = "Hello! I'm duke.Duke\n"
+        String greeting = "Hello! I'm Duke.\n"
                 + "What can I do for you?\n";
         System.out.println(HORIZONTAL_LINE + "\n" + greeting + HORIZONTAL_LINE);
     }
@@ -53,12 +53,12 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Got it. I've added this task:\n"
                 + "  " +taskInfo + "\n"
-                + "Now you have "+ taskCount + " duke.tasks in the list\n"
+                + "Now you have "+ taskCount + " tasks in the list\n"
                 + HORIZONTAL_LINE);
     }
     public void sayShowTaskList(){
         System.out.println(HORIZONTAL_LINE + "\n"
-                + "Here are the duke.tasks in your list:");
+                + "Here are the tasks in your list:");
     }
     public void printInvalidTaskNumError(){
         System.out.println(HORIZONTAL_LINE+"\n"
@@ -83,7 +83,7 @@ public class Ui {
     }
     public void showTaskNum(int taskCount){
         System.out.println(HORIZONTAL_LINE + "\n"
-                + "Now you have "+ taskCount + " duke.tasks in the list\n"
+                + "Now you have "+ taskCount + " tasks in the list\n"
                 + HORIZONTAL_LINE);
     }
 
