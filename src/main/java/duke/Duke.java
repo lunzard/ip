@@ -11,7 +11,7 @@ public class Duke {
     private Parser parser;
     public static boolean isQuit;
 
-    public Duke(){
+    public Duke() {
         ui = new Ui();
         tasks = new TaskList();
         storage = new Storage();

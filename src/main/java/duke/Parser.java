@@ -72,7 +72,7 @@ public class Parser {
             }
             break;
         case "DELETE":
-            if (checkDescription(command) && checkTaskNum(tasks)){
+            if (checkDescription(command) && checkTaskNum(tasks)) {
                 tasks.deleteTask(Integer.parseInt(description));
             }
             break;
@@ -158,7 +158,7 @@ public class Parser {
             throw new EmptyDescriptionException();
         }
     }
-    public boolean checkEvent(){
+    public boolean checkEvent() {
         boolean isDescriptionValid = true;
         try{
             processEvent(description);

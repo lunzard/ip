@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class TaskList {
     private static Ui ui;
 
-    public static ArrayList<Task> tasks;
-    public static int taskCount;
+    public ArrayList<Task> tasks;
+    public int taskCount;
 
     public TaskList() {
         ui = new Ui();
@@ -42,7 +42,7 @@ public class TaskList {
      * Finished task by marking a tick.
      * @param taskIndex the index of task done out of the taskList.
      */
-    public static void doneTask(int taskIndex) {
+    public void doneTask(int taskIndex) {
         tasks.get(taskIndex - 1).markAsDone();
         ui.showTaskDone(tasks.get(taskIndex - 1).toString());
     }
@@ -51,7 +51,7 @@ public class TaskList {
      * Usually used for Auto-Load and Auto-Save.
      * @param taskIndex the index of task done out of the taskList.
      */
-    public static void doneTaskSilent(int taskIndex) {
+    public void doneTaskSilent(int taskIndex) {
         tasks.get(taskIndex - 1).markAsDone();
     }
 
