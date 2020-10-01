@@ -1,26 +1,115 @@
-# duke.Duke project template
+# User Guide
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+## Features 
 
-## Setting up in Intellij
+### Feature 1: Manage tasks
+Duke can add, mark, delete different type of tasks (Todo, Deadline, Event) for you!
 
-Prerequisites: JDK 11, update Intellij to the most recent version.
+### Feature 2: Search keyword
+Duke can help you search the tasks matching the keyword provided by you!
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
-1. Set up the correct JDK version, as follows:
-   1. Click `Configure` > `Structure for New Projects` and then `Project Settings` > `Project` > `Project SDK`
-   1. If JDK 11 is listed in the drop down, select it. If it is not, click `New...` and select the directory where you installed JDK 11
-   1. Click `OK`
-1. Import the project into Intellij as follows:
-   1. Click `Open or Import`.
-   1. Select the project directory, and click `OK`
-   1. If there are any further prompts, accept the defaults.
-1. After the importing is complete, locate the `src/main/java/duke.Duke.java` file, right-click it, and choose `Run duke.Duke.main()`. If the setup is correct, you should see something like the below:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
+### Feature 3: Auto-Saving
+Duke can save your tasks even if you close it!
+
+## Usage
+
+### `TODO` - add todo task
+
+Add the simplest type of task into your list.
+
+Example of usage: 
+
+`TODO read book`
+
+Expected outcome:
+
+`Got it. I've added this task:
+   [T][✘] readbook
+ Now you have 1 duke.tasks in the list`
+### `DEADLINE` - add Deadline
+
+Add a deadline time on top of todo.
+
+Example of usage: 
+
+`DEADLINE return book /BY 10pm`
+
+Expected outcome:
+
+`Got it. I've added this task:
+   [D][✘] return book (by: 10pm)
+ Now you have 2 duke.tasks in the list`
+### `EVENT` - add Event
+
+Add a time point on top of todo.
+
+Example of usage: 
+
+`EVENT watch movie /at monday`
+
+Expected outcome:
+
+`Got it. I've added this task:
+   [E][✘] watch movie (at: monday)
+ Now you have 3 duke.tasks in the list`
+### `LIST` - List all added tasks
+
+Print all added tasks in a column
+
+Example of usage: 
+
+`LIST`
+
+Expected outcome:
+
+`Here are the duke.tasks in your list:
+ 1.[T][✘] readbook
+ 2.[D][✘] return book (by: 10pm)
+ 3.[E][✘] watch movie (at: monday)`
+### `DONE` - Mark selected task as done
+
+Change the sign of the task into tick
+
+Example of usage: 
+
+`DONE 1`
+
+Expected outcome:
+
+`Nice! I've marked this task as done:
+   [T][✓] readbook`
+### `DELETE` - Remove selected task
+
+Remove task of given index from list.
+
+Example of usage: 
+
+`DELETE 2`
+
+Expected outcome:
+
+`Noted. I've removed this task:
+ [D][✘] return book (by: 10pm)`
+### `FIND` - Search for matching tasks
+
+Find and print all tasks with match strings.
+
+Example of usage: 
+
+`FIND movie`
+
+Expected outcome:
+
+`Here are the matching tasks in your list:
+ 2.[E][✘] watch movie (at: monday)`
+### `BYE` - Describe action
+
+Describe action and its outcome.
+
+Example of usage: 
+
+`BYE`
+
+Expected outcome:
+
+`Bye. Hope to see you again soon!`
