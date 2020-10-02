@@ -1,6 +1,6 @@
 package duke.tasks;
 
-import duke.Ui;
+import ui.Ui;
 
 import java.util.ArrayList;
 
@@ -46,6 +46,7 @@ public class TaskList {
         tasks.get(taskIndex - 1).markAsDone();
         ui.showTaskDone(tasks.get(taskIndex - 1).toString());
     }
+
     /**
      * Finished task by marking a tick, without any UI displayed.
      * Usually used for Auto-Load and Auto-Save.

@@ -1,6 +1,10 @@
 package duke;
 
 import duke.tasks.TaskList;
+import parser.Parser;
+import storage.Storage;
+import ui.Ui;
+
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -25,7 +29,7 @@ public class Duke {
         //when the program starts
         ui.showLogo();
         ui.greet();
-        while(!isQuit) {
+        while (!isQuit) {
             parser.processInput(in);
             parser.respondToCommand(parser.command, tasks);
         }
