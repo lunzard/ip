@@ -90,7 +90,7 @@ public class Ui {
         System.out.println(HORIZONTAL_LINE + "\n"
                 + "Got it. I've added this task:\n"
                 + "  " + taskInfo + "\n"
-                + "Now you have " + taskCount + " tasks in the list\n"
+                + "Now you have " + taskCount + " task(s) in the list\n"
                 + HORIZONTAL_LINE);
     }
 
@@ -148,7 +148,7 @@ public class Ui {
      */
     public void showTaskNum(int taskCount) {
         System.out.println(HORIZONTAL_LINE + "\n"
-                + "Now you have " + taskCount + " tasks in the list\n"
+                + "Now you have " + taskCount + " task(s) in the list\n"
                 + HORIZONTAL_LINE);
     }
 
@@ -213,6 +213,6 @@ public class Ui {
 
     public void showMatchingTasks() {
         System.out.println(HORIZONTAL_LINE + "\n"
-                + "Here are the matching tasks in your list:");
+                + "Here are the matching task(s) in your list:");
     }
 }
